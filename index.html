@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Avanzal Games</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#0b0b0b;
+    color:white;
+    font-family:Arial;
+    overflow-x:hidden;
+}
+
+/* АНИМИРОВАННЫЙ ФОН */
+
+body::before{
+    content:"";
+    position:fixed;
+    width:200%;
+    height:200%;
+    background:
+    radial-gradient(#00ff99 1px, transparent 1px);
+    background-size:40px 40px;
+    animation:bgmove 25s linear infinite;
+    opacity:0.08;
+    z-index:-1;
+}
+
+@keyframes bgmove{
+    0%{
+        transform:translate(0,0);
+    }
+
+    100%{
+        transform:translate(-300px,-300px);
+    }
+}
+
+/* HEADER */
+
+header{
+    background:#111;
+    padding:25px;
+    text-align:center;
+    border-bottom:1px solid #222;
+    box-shadow:0 0 25px #00ff9940;
+}
+
+header h1{
+    color:#00ff99;
+    font-size:42px;
+    text-shadow:0 0 15px #00ff99;
+}
+
+/* HERO */
+
+.hero{
+    text-align:center;
+    padding:50px 20px;
+}
+
+.hero h2{
+    font-size:40px;
+    margin-bottom:15px;
+}
+
+.hero p{
+    color:#aaa;
+    font-size:18px;
+}
+
+/* КНОПКИ */
+
+.socials{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:15px;
+    margin-top:30px;
+}
+
+.socials a{
+    text-decoration:none;
+    color:white;
+    background:#1a1a1a;
+    padding:15px 25px;
+    border-radius:12px;
+    transition:0.3s;
+    font-size:18px;
+    border:1px solid #333;
+}
+
+.socials a:hover{
+    background:#00ff99;
+    color:black;
+    transform:translateY(-5px);
+    box-shadow:0 0 20px #00ff99;
+}
+
+/* ВИДЕО */
+
+.videos{
+    display:grid;
+    grid-template-columns:
+    repeat(auto-fit,minmax(320px,1fr));
+
+    gap:25px;
+    padding:30px;
+}
+
+.card{
+    background:#161616;
+    border-radius:18px;
+    overflow:hidden;
+    transition:0.4s;
+    border:1px solid #222;
+}
+
+.card:hover{
+    transform:scale(1.03);
+    box-shadow:0 0 25px #00ff9940;
+}
+
+.card iframe{
+    width:100%;
+    height:220px;
+}
+
+.card h3{
+    padding:18px;
+    font-size:18px;
+}
+
+/* FOOTER */
+
+footer{
+    text-align:center;
+    padding:30px;
+    color:#777;
+    border-top:1px solid #222;
+    margin-top:40px;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>AVANZAL GAMES</h1>
+</header>
+
+<section class="hero">
+
+<h2>Игры • Android • GTA • Call of Duty</h2>
+
+<p>
+Новые видео каждый день
+</p>
+
+<div class="socials">
+
+<a href="https://t.me/droidvideon" target="_blank">
+Telegram
+</a>
+
+<a href="https://vk.com/club226910341" target="_blank">
+VK
+</a>
+
+<a href="https://dzen.ru/id/60900de4dc006e5b71f4e0ca?clid=1400" target="_blank">
+Дзен
+</a>
+
+<a href="https://youtube.com/@droidvideon" target="_blank">
+YouTube
+</a>
+
+</div>
+
+</section>
+
+<section class="videos" id="videoContainer">
+</section>
+
+<footer>
+© 2026 Avanzal Games
+</footer>
+
+<script>
+
+// ID YOUTUBE КАНАЛА
+const channelId = "UCAZ85s763_2AUZF3MOTQBHg";
+
+// RSS YOUTUBE
+const rssUrl =
+https://www.youtube.com/feeds/videos.xml?channel_id=${channelId};
+
+const api =
+https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)};
+
+fetch(api)
+.then(res => res.json())
+.then(data => {
+
+    const container =
+    document.getElementById("videoContainer");
+
+    data.items.slice(0, 9).forEach(video => {
+
+        const videoId =
+        video.link.split("v=")[1];
+
+        const card =
+        document.createElement("div");
+
+        card.className = "card";
+
+        card.innerHTML = 
+
+        <iframe
+        src="https://www.youtube.com/embed/${videoId}"
+        frameborder="0"
+        allowfullscreen>
+        </iframe>
+
+        <h3>${video.title}</h3>
+
+        ;
+
+        container.appendChild(card);
+
+    });
+
+});
+
+</script>
+
+</body>
+</html>
